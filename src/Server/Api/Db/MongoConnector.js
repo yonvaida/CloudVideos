@@ -1,11 +1,11 @@
-const MongoClient = require('mongodb').MongoClient;
-var url = "mongodb://127.0.0.1:27017/";
+const {MongoClient} = require('mongodb');
+var url = "mongodb+srv://ionut:florilor288@cluster0.urrpv.mongodb.net/Movies?retryWrites=true&w=majority";
 
 class MongoConnector {
   
   getAllMovies() {
     return new Promise((resolve,reject)=>{
-      MongoClient.connect(url, function(err, db) {
+      MongoClient.connect(url, (err, db) => {
         if (err) reject(err);
         var dbo = db.db("Movies");
       dbo.collection("movie_list")
@@ -14,7 +14,6 @@ class MongoConnector {
          resolve(JSON.stringify(result));
         db.close();
       });
-
       });
     });
 

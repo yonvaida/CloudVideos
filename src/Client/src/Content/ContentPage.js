@@ -11,7 +11,6 @@ class ContentPage extends PureComponent {
       <HashRouter>
         <Navigation />
         <div className="row">
-          <Filters />
           <Switch>
             <Route exact path="/Movies">
               <MoviePage />

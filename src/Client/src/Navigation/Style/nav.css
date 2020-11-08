@@ -7,7 +7,7 @@
       padding-top:0;
       padding-bottom: 0;
       border-bottom: none;
-      background-color:  #080a0d;
+      backdrop-filter:blur(20px);
       width:100%;
       height:50px;
       position:fixed;
@@ -22,6 +22,9 @@
       height:50px;
   }
 
+  #mainNav .nav-item {
+    height:50px;
+    }
   #mainNav .navbar-brand {
       padding: .5rem 0;
       color: rgba(255,255,255,.5)
@@ -32,7 +35,7 @@
       padding-left: 2rem;
       padding-right: 2rem;
       color: rgba(255,255,255,.5);
-      height:50px;
+
   }
 
   #mainNav .nav-link:hover {
@@ -67,7 +70,9 @@
 
   #mainNav .nav-link.active {
       color: #64a19d;
-      outline: 0;
       border-bottom: .25rem solid #64a19d
   }
+  a {
+      text-decoration: none;
+    }
 }

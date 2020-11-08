@@ -1,9 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component,ReactDOM } from 'react';
 import MovieItem from './MovieItem';
+import Grid from '@material-ui/core/Grid';
 
 const settings = require('../../../../settings.json');
 
 class Movies extends Component {
+
   constructor(props) {
     super(props);
     this.loading = (
@@ -12,7 +14,8 @@ class Movies extends Component {
         <div />
       </div>
     );
-    this.state = { renderingItem: this.loading };
+    this.state = { renderingItem: "Loading"};
+    
     this.videoPage = this.props.videoPage; 
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.selectedItem = 0;
@@ -29,20 +32,7 @@ class Movies extends Component {
         response.json()
           .then((jsonResp) => {
             const table = [];
-            let i = 0;
-            const allMovies = jsonResp;
-            allMovies.forEach((movie) => {
-              table.push(<MovieItem
-                key={i}
-                id={i}
-                name={movie.title}
-                year={allMovies[i].year}
-                url={allMovies[i]}
-                openVideo={this.videoPage}
-              />);
-              i += 1;
-            });
-            this.setState({ renderingItem: table });
+            this.setState({ renderingItem: jsonResp });
           });
       })
       .catch((error) => {
@@ -75,11 +65,51 @@ class Movies extends Component {
     elements[this.selectedItem].classList.add('focused');
   }
 
+  getChildrenStyle() {
+    return {
+      width: (1000 - 18) / 2,
+      height: parseInt(Math.random() * 20 + 12) * 10,
+      backgroundColor: 'rgb(92, 67, 155)',
+      paddingTop: 20,
+      borderRadius: 8,
+    };
+  }
+
+  getAutoResponsiveProps() {
+    return {
+      itemMargin: 10,
+      containerWidth: this.state.containerWidth || document.body.clientWidth,
+      itemClassName: 'item',
+      gridWidth: 100,
+      transitionDuration: '.5'
+    };
+  }
+
   render() {
+    if (this.state.renderingItem === "Loading") {
+      return <div>loading...</div>;
+    }
     return (
-      <div className="row justify-content-md-center">
-        {this.state.renderingItem}
-      </div>
+      <div>
+         <Grid container spacing={1}>
+        {
+          this.state.renderingItem.map((movie, index) => {
+            return (
+              <Grid item xs key={index}>
+               <MovieItem
+                key={index}
+                id={index}
+                name={movie.title}
+                year={movie.year}
+                url={movie}
+                openVideo={this.videoPage}
+              />
+              </Grid>
+            );
+          })
+        }
+        </Grid>
+    </div>
     );
   }
 }
